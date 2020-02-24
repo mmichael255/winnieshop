@@ -99,9 +99,9 @@ public class GoodsService {
         goods.setId(spuDto.getId());
         goods.setCategoryId(spuDto.getCid3());
         goods.setBrandId(spuDto.getBrandId());
-        goods.setCreateTime(spuDto.getCreateTime());
+        goods.setCreateTime(spuDto.getCreateTime().getTime());
         goods.setSpuName(spuDto.getName());
-        goods.setSpuTitle(spuDto.getSubTitle());
+        goods.setSubTitle(spuDto.getSubTitle());
         return goods;
     }
 

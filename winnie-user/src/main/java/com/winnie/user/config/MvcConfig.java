@@ -15,8 +15,8 @@ public class MvcConfig implements WebMvcConfigurer {
     @Autowired
     private AuthProperties prop;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MVCPrivilegeInterceptor(prop)).excludePathPatterns("/swagger-ui.html");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new MVCPrivilegeInterceptor(prop)).excludePathPatterns("/swagger-ui.html");
+//    }
 }

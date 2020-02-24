@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Data
-@Document(indexName = "goods",type = "docs",shards = 1,replicas = 1)
+@Document(indexName = "winniegoods",type = "docs",shards = 1,replicas = 1)
 public class Goods {
     @Id
     @Field(type = FieldType.Keyword)
