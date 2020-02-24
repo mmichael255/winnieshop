@@ -145,7 +145,7 @@ public class GoodsService {
 
     public PageResult<GoodsDto> getGoodsPage(SearchRequest searchRequest) {
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
-        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"id","spuName","spuTitle","skus"},null));
+        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"id","spuName","subTitle","skus"},null));
         queryBuilder.withPageable(PageRequest.of(searchRequest.getPage() -1,searchRequest.getSize()));
         HighlightUtils.highlightField(queryBuilder,"spuName");
         queryBuilder.withQuery(getQueryBuilder(searchRequest));

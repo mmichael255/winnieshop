@@ -36,7 +36,7 @@ public class clienttest {
         int page = 1,pages=1;
         do {
             PageResult<SpuDto> pageResult = itemClient.pageSpu(page, 100, null, true);
-            List<SpuDto> dataList = pageResult.getDataList();
+            List<SpuDto> dataList = pageResult.getItems();
             dataList.forEach(spuDto -> {
                 Goods r = goodsService.spuDtoToGoods(spuDto);
                 searchRepository.save(r);

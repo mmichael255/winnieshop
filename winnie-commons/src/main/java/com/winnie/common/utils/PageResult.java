@@ -9,19 +9,19 @@ import java.util.Map;
 public class PageResult<T> {
     private Long total;
     private Integer totalPage;
-    private List<T> dataList;
+    private List<T> items;
 
     public PageResult() {
     }
 
-    public PageResult(Long total, List<T> dataList) {
+    public PageResult(Long total, List<T> items) {
         this.total = total;
-        this.dataList = dataList;
+        this.items = items;
     }
 
-    public PageResult(Long total, Integer totalPage, List<T> dataList) {
+    public PageResult(Long total, Integer totalPage, List<T> items) {
         this.total = total;
         this.totalPage = totalPage;
-        this.dataList = dataList;
+        this.items = items;
     }
 }
