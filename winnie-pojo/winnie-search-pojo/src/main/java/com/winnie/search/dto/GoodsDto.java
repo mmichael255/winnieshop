@@ -6,6 +6,6 @@ import lombok.Data;
 public class GoodsDto {
     private Long id;
     private String spuName;
-    private String spuTitle;
+    private String subTitle;
     private String skus;
 }
