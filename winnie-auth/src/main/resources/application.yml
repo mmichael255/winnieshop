@@ -1,0 +1,42 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///leyou?useUnicode=yes&characterEncoding=utf8
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+wn:
+  jwt:
+    pubKeyPath: D:\\it\\RSAAuth\\rsa_key.pub # 公钥地址
+    priKeyPath: D:\it\RSAAuth\rsa_key # 私钥地址
+    user:
+      expire: 30 #过期时间设置 单位分钟
+      refreshTime: 15
+      cookieName: WN_TOKEN # cookie名称
+      cookieDomain: leyou.com # cookie的域，不要加www或者manage
+    app:
+      expireTime: 1500
+      id: 10
+      secret: ${spring.application.name}
+      headerName: privilege_token
+  encoder:
+    crypt:
+      secret: ${random.uuid}
+      strength: 10
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.winnie.auth.entity

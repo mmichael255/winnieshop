@@ -1,0 +1,122 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: winnie-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: item-server
+          uri: lb://item-service
+          predicates:
+            - Path=/api/item/**
+          filters:
+            - StripPrefix=2
+        - id: upload-server
+          uri: lb://upload-service
+          predicates:
+            - Path=/api/upload/**
+          filters:
+              - StripPrefix=2
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=2
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+        - id: cart-service
+          uri: lb://cart-service
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - StripPrefix=2
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://manage.leyou.com"
+              - "http://www.leyou.com"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 360000
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTIONS
+              - HEAD
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+    registry-fetch-interval-seconds: 5
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 2000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperation: false
+
+wn:
+  jwt:
+    pubKeyPath: D:\\it\\RSAAuth\\rsa_key.pub # 公钥地址
+    user:
+      cookieName: WN_TOKEN # cookie名称
+    app:
+      id: 7
+      secret: api-gateway
+      headerName: privilege_token
+  filter:
+    allowPaths:
+      - /api/auth/login
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item
+#wn:
+#  cors:
+#    allowedOrigins:
+#      - http://manage.leyou.com
+#    allowedCredentials: true
+#    allowedHeaders:
+#      - "*"
+#    allowedMethods:
+#      - GET
+#      - POST
+#      - DELETE
+#      - PUT
+#      - OPTIONS
+#      - HEAD
+#    maxAge: 360000
+#    filterPath: "/**"

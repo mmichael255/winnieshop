@@ -1,0 +1,14 @@
+package com.winnie.page.config;
+
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RabbitConfig {
+    @Bean
+    public Jackson2JsonMessageConverter messageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
+}
