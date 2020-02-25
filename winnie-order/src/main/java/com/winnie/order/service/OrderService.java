@@ -1,14 +1,13 @@
 package com.winnie.order.service;
 
 import com.winnie.common.auth.pojo.UserHolder;
+import com.winnie.common.exception.pojo.ExceptionEnum;
+import com.winnie.common.exception.pojo.WNException;
 import com.winnie.common.utils.BeanHelper;
 import com.winnie.common.utils.IdWorker;
 import com.winnie.item.ItemClient;
 import com.winnie.item.entity.Sku;
-import com.winnie.order.dto.AddressDTO;
-import com.winnie.order.dto.CartDTO;
-import com.winnie.order.dto.OrderDTO;
-import com.winnie.order.dto.OrderStatusEnum;
+import com.winnie.order.dto.*;
 import com.winnie.order.entity.Order;
 import com.winnie.order.entity.OrderDetail;
 import com.winnie.order.entity.OrderLogistics;
@@ -20,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,4 +109,29 @@ public class OrderService {
         return orderId;
     }
 
+    public OrderVO findOrderVoById(Long id) {
+        //根据订单id查询订单对象
+        Order order = orderMapper.selectByPrimaryKey(id);
+        if(order==null){
+            throw new WNException(ExceptionEnum.ORDER_NOT_FOUND);
+        }
+        //将entity转成vo
+        OrderVO orderVO = BeanHelper.copyProperties(order, OrderVO.class);
+        //查询订单详情列表
+        OrderDetail record = new OrderDetail();
+        record.setOrderId(id);
+        List<OrderDetail> orderDetails = detailMapper.select(record);
+        if(CollectionUtils.isEmpty(orderDetails)){
+            throw new WNException(ExceptionEnum.ORDER_NOT_FOUND);
+        }
+        //给OrderVO中的订单详情赋值
+        orderVO.setDetailList(orderDetails);
+        //查询物流信息
+        OrderLogistics orderLogistics = logisticsMapper.selectByPrimaryKey(id);
+        if(orderLogistics==null){
+            throw new WNException(ExceptionEnum.ORDER_NOT_FOUND);
+        }
+        orderVO.setLogistics(orderLogistics);
+        return orderVO;
+    }
 }
