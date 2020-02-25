@@ -17,6 +17,7 @@ import com.winnie.order.mapper.OrderLogisticsMapper;
 import com.winnie.order.mapper.OrderMapper;
 import com.winnie.order.utils.WxPayHelper;
 import com.winnie.user.UserClient;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -29,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 @Transactional
 public class OrderService {
@@ -158,5 +159,38 @@ public class OrderService {
         redisTemplate.opsForValue().set(key,wxPayUrl);
 
         return wxPayUrl;
+    }
+
+    public Integer getPayCode(Long id) {
+        Order order = orderMapper.selectByPrimaryKey(id);
+        if (order == null){
+            throw new WNException(ExceptionEnum.ORDER_NOT_FOUND);
+        }
+        return order.getStatus();
+    }
+
+    public void checkWxNotify(Map<String, String> paramMap) {
+        log.info("【微信来通知我们了！】业务开始了！！！！！！！！！！！");
+        wxPayHelper.checkPayStatus(paramMap);
+        Long orderNO = Long.valueOf(paramMap.get("out_trade_no"));
+        Long totalFee = Long.valueOf(paramMap.get("total_fee"));
+
+        Order order = orderMapper.selectByPrimaryKey(orderNO);
+        if (order == null){
+            throw new WNException(ExceptionEnum.ORDER_NOT_FOUND);
+        }
+        if( !order.getActualFee().equals(totalFee)){
+            log.error("【微信来通知我们了！】支付金额有误！");
+            throw new WNException(501, "支付金额有误！");
+        }
+
+        Order order1 = new Order();
+        order1.setOrderId(orderNO);
+        order1.setStatus(OrderStatusEnum.PAY_UP.value());
+        int i = orderMapper.updateByPrimaryKeySelective(order1);
+        if (i != 1){
+            log.error("【微信来通知我们了！】修改订单状态有误！");
+        }
+        log.info("【微信来通知我们了！】业务结束了！！！！！！！！！！！");
     }
 }

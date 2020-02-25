@@ -28,5 +28,5 @@ wn:
     appID: wx8397f8696b538317
     mchID: 1473426802
     key: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
-    notifyUrl: http://www.api.leyou.com/api/pay/notify
+    notifyUrl: http://68ykyk.natappfree.cc/api/pay/wx/notify
     payType: NATIVE

@@ -41,7 +41,7 @@ public class WxPayHelper {
         }
     }
 
-    private void checkPayStatus(Map<String, String> responseMap) {
+    public void checkPayStatus(Map<String, String> responseMap) {
         if (!StringUtils.equals(responseMap.get("return_code"),"SUCCESS")){
             log.error("【获取微信支付链接】通信失败！异常信息为：{}", responseMap.get("return_msg"));
             throw new WNException(501, "【获取微信支付链接】失败！");

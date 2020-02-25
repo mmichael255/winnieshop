@@ -48,6 +48,12 @@ spring:
             - Path=/api/order/**
           filters:
             - StripPrefix=1
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/pay/**
+          filters:
+            - StripPrefix=1
 
       globalcors:
         cors-configurations:
@@ -104,6 +110,7 @@ wn:
       - /api/user/check
       - /api/user/code
       - /api/item
+      - /api/pay
 #wn:
 #  cors:
 #    allowedOrigins:
