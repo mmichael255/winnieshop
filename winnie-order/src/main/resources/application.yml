@@ -10,6 +10,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   jackson:
     default-property-inclusion: non_null #对象转json的时候，只包含非空属性
+  redis:
+    host: 127.0.0.1
 eureka:
   client:
     service-url:
@@ -22,3 +24,9 @@ wn:
   worker:
     workerId: 1
     dataCenterId: 1
+  pay:
+    appID: wx8397f8696b538317
+    mchID: 1473426802
+    key: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
+    notifyUrl: http://www.api.leyou.com/api/pay/notify
+    payType: NATIVE

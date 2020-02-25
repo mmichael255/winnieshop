@@ -1,6 +1,7 @@
 package com.winnie.order.service;
 
 import com.winnie.common.auth.pojo.UserHolder;
+import com.winnie.common.constants.WNConstant;
 import com.winnie.common.exception.pojo.ExceptionEnum;
 import com.winnie.common.exception.pojo.WNException;
 import com.winnie.common.utils.BeanHelper;
@@ -14,9 +15,11 @@ import com.winnie.order.entity.OrderLogistics;
 import com.winnie.order.mapper.OrderDetailMapper;
 import com.winnie.order.mapper.OrderLogisticsMapper;
 import com.winnie.order.mapper.OrderMapper;
+import com.winnie.order.utils.WxPayHelper;
 import com.winnie.user.UserClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -48,6 +51,12 @@ public class OrderService {
 
     @Autowired
     private IdWorker idWorker;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private WxPayHelper wxPayHelper;
 
     public Long saveOrder(OrderDTO orderDTO) {
         //获取订单id
@@ -133,5 +142,21 @@ public class OrderService {
         }
         orderVO.setLogistics(orderLogistics);
         return orderVO;
+    }
+
+    public String getPayUrl(Long id) {
+        String key = WNConstant.PAY_URL_PER+id;
+        if (redisTemplate.hasKey(key)){
+            String s = redisTemplate.opsForValue().get(key);
+            return s;
+        }
+        Order order = orderMapper.selectByPrimaryKey(id);
+        if (order.getStatus() != OrderStatusEnum.INIT.value()){
+
+        }
+        String wxPayUrl = wxPayHelper.getWxPayUrl(id, order.getActualFee());
+        redisTemplate.opsForValue().set(key,wxPayUrl);
+
+        return wxPayUrl;
     }
 }

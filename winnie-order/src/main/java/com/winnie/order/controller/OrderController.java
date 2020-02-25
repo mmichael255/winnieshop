@@ -26,4 +26,10 @@ public class OrderController {
         OrderVO orderVO = orderService.findOrderVoById(id);
         return ResponseEntity.ok(orderVO);
     }
+
+    @GetMapping("/order/url/{id}")
+    public ResponseEntity<String> getPayUrl(@PathVariable("id") Long id){
+        String payUrl = orderService.getPayUrl(id);
+        return ResponseEntity.ok(payUrl);
+    }
 }

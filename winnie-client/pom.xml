@@ -15,6 +15,7 @@
         <module>winnie-item-client</module>
         <module>winnie-user-client</module>
         <module>winnie-auth-client</module>
+        <module>winnie-user-client</module>
     </modules>
 
     <dependencies>

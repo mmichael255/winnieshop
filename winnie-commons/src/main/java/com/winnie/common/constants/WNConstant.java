@@ -16,4 +16,5 @@ public class WNConstant {
      * 用户在redis中的购物车对象的key的前缀
      */
     public static final String CART_PRE = "CART_PRE";
+    public static final String PAY_URL_PER = "PAY_URL_PER";
 }
