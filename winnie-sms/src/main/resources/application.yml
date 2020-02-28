@@ -10,8 +10,8 @@ spring:
     password: rose
 wn:
   sms:
-    accessKeyId: LTAI4FqZrR75q3ggR7eu3aGx
-    accessSecret: 6QihAbeIeIYJruea8QH27LCM939tH5
+    accessKeyId: www
+    accessSecret: www
     regionId: cn-hangzhou
     signName: 乐友商城
     templateCode: SMS_183791543
