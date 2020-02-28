@@ -13,8 +13,8 @@ eureka:
         http://localhost:10086/eureka
 wn:
   oss:
-    accessKeyId: LTAI4FqZrR75q3ggR7eu3aGx
-    accessKeySecret: 6QihAbeIeIYJruea8QH27LCM939tH5
+    accessKeyId: qqq
+    accessKeySecret: qqq
     host: http://winnie-img.oss-cn-beijing.aliyuncs.com # 访问oss的域名，很重要bucket + endpoint
     endpoint: oss-cn-beijing.aliyuncs.com # 你的服务的端点，不一定跟我一样
     dir: "" # 保存到bucket的某个子目录
